@@ -1,19 +1,13 @@
 import { AbstractComponentBase } from '../abstract/Component'
 import { SystemHooks } from '../core/SystemHooks'
-//import { Kernel } from '../core/Kernel';
 import { Configuration } from '../core/Configuration'
-
-// TODO
 import * as LOGGER from '../core/logger'
-
 
 interface MessageEvent {
     data: any,
     origin: string
 }
 
-// Extend Component base with sub components 
-// this will provide fallback methods.
 export class ComponentBase implements AbstractComponentBase {
 
     supported_message_types = [

@@ -1,6 +1,5 @@
-import * as LOGGER from './logger'
-//import { Kernel } from './Kernel'
 import { Configuration } from './Configuration'
+import * as LOGGER from './logger'
 
 export class SystemHooks {
 
@@ -82,5 +81,4 @@ export class SystemHooks {
         }
         return isReady
     }
-
 }

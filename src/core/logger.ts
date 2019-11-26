@@ -1,6 +1,5 @@
 /*eslint no-console: ["error", { allow: ["warn"] }] */
 
-//import { Kernel } from '../core/Kernel';
 import { Configuration } from './Configuration'
 
 /**

@@ -169,8 +169,6 @@
         return SystemHooks;
     }();
 
-    // Extend Component base with sub components 
-    // this will provide fallback methods.
     var ComponentBase = /** @class */function () {
         function ComponentBase(componentType) {
             var _this = this;
@@ -319,11 +317,38 @@
         function Kernel() {
             var _this = _super.call(this) || this;
             _this.boot = function (configuration) {
+                _this.checkSecurityConcerns(configuration);
                 _this.setConfiguration(configuration);
                 SystemHooks.boot();
                 Dispatcher.boot();
                 Receiver.boot();
                 SystemHooks.call('mounted');
+            };
+            _this.checkSecurityConcerns = function (configuration) {
+                var concerns = {
+                    origin: {
+                        validator: function () {
+                            // Origin for dispatcher or receiver not provided 
+                            if (!configuration.dispatcherOrigin && !configuration.receiverOrigin) {
+                                return false;
+                            }
+                            // Origin for dispatcher or receiver wildcard
+                            if (configuration.dispatcherOrigin && configuration.dispatcherOrigin.toString() === '*' || configuration.receiverOrigin && configuration.receiverOrigin.toString() === '*') {
+                                return false;
+                            }
+                            return true;
+                        },
+                        message: 'Always specify an exact target origin, not *. Please update your configuration to fix this security issue.'
+                    }
+                };
+                for (var _i = 0, _a = Object.entries(concerns); _i < _a.length; _i++) {
+                    var _b = _a[_i],
+                        key = _b[0],
+                        value = _b[1];
+                    if (!value.validator()) {
+                        window.console.warn("[@cidekar/window-rivet] " + value.message);
+                    }
+                }
             };
             return _this;
         }
